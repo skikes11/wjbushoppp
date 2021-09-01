@@ -1,0 +1,82 @@
+package net.java.web;
+
+import java.io.IOException;
+import java.net.HttpCookie;
+import java.sql.Date;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
+
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import net.java.dao.BillDAO;
+import net.java.dao.UserDAO;
+import net.java.dao.WaifuDAO;
+import net.java.model.BillDetail;
+import net.java.model.IdGenerator;
+
+/**
+ * Servlet implementation class CartCheckOut
+ */
+@WebServlet("/CartCheckOut")
+public class CartCheckOut extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final int priceTotaLong = 0;
+       	private BillDAO billDAO; 
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+	  public void init() {
+		  billDAO = new BillDAO();
+	    }
+    public CartCheckOut() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Object obj = session.getAttribute("cart");
+		String customerName = request.getParameter("name");
+		String customerPhone = request.getParameter("phone");
+		String  customerCity= request.getParameter("calc_shipping_provinces");
+		String  customerDistrict= request.getParameter("calc_shipping_district");
+		String  customerDetailAdd= request.getParameter("detailAddress");
+		if(obj!=null) {
+		
+		Map<Integer, BillDetail> map = (Map<Integer, BillDetail>) obj;
+		final String IdBill = UUID.randomUUID().toString();
+		final String IdCustomer = UUID.randomUUID().toString();
+		Date date = new Date(serialVersionUID);
+		date.toString();
+		int priceTotalLong= 12523123;
+		billDAO.insertCustomer(IdCustomer, customerName, customerPhone, customerCity, customerDistrict, customerDetailAdd);
+		billDAO.insertBill(IdBill, date, priceTotalLong, IdCustomer)
+		
+		
+		session.removeAttribute("cart");
+		}
+		response.sendRedirect("listwaifu");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

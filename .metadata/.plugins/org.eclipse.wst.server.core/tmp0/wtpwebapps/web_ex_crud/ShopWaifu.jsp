@@ -1,0 +1,265 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+ <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+ <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/b32121c496.js"></script>
+<title>Insert title here</title>
+<style type="text/css">
+.nar{
+position:sticky;
+	top:0;
+}
+.card{
+ 	width: 100%;
+    height: 275px;
+    object-fit: cover;  
+}
+.form-inline{
+	width: 100%;
+    height: 75px;
+}
+.container{
+	text-align: center;
+}
+.row img {
+    width: 100%;
+    height: 157px;
+    object-fit: cover;
+}
+.type-sort{
+margin-left: 1045px;
+top:157px;
+}
+.type-sort p{
+	margin-top:5px;
+	margin-right: 5px;
+}
+.type-sort select{
+margin-bot: 15px;
+}
+.sort{
+margin-right: 18px;
+}
+.row{
+	margin-left: 130px;
+	margin-right: 130px;
+}
+
+.card-body{
+	text-align: center;
+} 
+.nav-cart{
+	margin-left: 705px;
+}
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #8acfec;
+}
+#lblCartCount {
+    font-size: 12px;
+    background: #785ef8;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px; 
+}
+
+</style>
+
+
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <form class="form-inline" method="get">
+  <a class="navbar-brand" href="#">
+    <img src="data:image/jpeg;base64,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" alt="logo" style="width:40px;">
+  </a>	
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="listwaifu" onclick="MovePage()">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="manage" onclick="MovePage()">Manage</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" onclick="MovePage()">Contact</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="login" onclick="MovePage()">Login</a>
+    </li>
+    <li class="nav-search">
+    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+    <button class="btn btn-success" type="submit">Search</button>
+    </li>
+    <li  class="nav-cart">
+   <span onclick="cart_click()"> <i class="fa fa-shopping-cart"  style="font-size: 2.75em" aria-hidden="true"></i> </span>
+    <a  class='badge badge-warning' id="lblCartCount"> </a>
+    </li>
+    </ul>
+  </form>
+</nav>
+	<form action=listwaifu method="get">
+	<div class="container">
+  		<h4> List of Waifuuu Animeee </h4>
+  </div>
+  <table class="type-sort">
+  <tr> 
+  <td> <p> Type:  </p> </td>
+  <td>	
+  <select id="typeOfWaifu" name="type" class="sort" onchange="getType(this)">
+  <option value="all">All</option>
+  <option value="loli">Loli</option>
+  <option value="BB">BB</option>
+  </select>
+  </td>
+  <td> <p> Sort By: </p> </td>
+  <td> 
+  <select id="sort" onchange="getSort(this)">
+  <option value="priceUp">Price: Going Up</option>
+  <option value="priceDown">Price: Going Down</option>
+  <option value="AgeUp">Age: Going Up</option>
+  <option value="AgeDown">Age: Going Down</option>
+  <option value="name">Name: A->Z</option>
+  </select>
+  </td>
+  </tr>
+  </table>
+	<div class="row">
+	<c:forEach items="${listWaifu}" var="x">
+	<div class=" col-sm-3">
+	<div class="card"  >
+    <img class="rounded"  src="${x.image}" alt="Card image" >
+    <div class="card-body">
+      <h6 class="card-title">${x.name} &nbsp;&nbsp;&nbsp;${x.age} </h6>
+      <p class="bloc-left-price">
+     		 <fmt:setLocale value = "en_US"/>
+			<fmt:formatNumber value = "${x.price}" type = "currency"/>
+      &nbsp;&nbsp;  
+      <a href="AddToCart?WaifuID=${x.id}" onclick="AddToCart()" class="btn btn-primary">Add to cart</a>
+      </p>
+    </div>
+  </div>
+  </div>
+	</c:forEach>
+	</div>
+	</form>
+</body>
+<script type="text/javascript">
+
+document.getElementById('typeOfWaifu').value=localStorage.getItem("typeOfW");
+document.getElementById('sort').value=localStorage.getItem("typeOfS");
+document.getElementById('lblCartCount').innerHTML= localStorage.getItem("CountProductOnCart");
+	var type = [];
+	type[0]="all";
+function getType(selectObject) {
+	 type[0] = selectObject.value;
+	 localStorage.setItem("typeOfW", type[0]);
+	  if(type[0]==="all"){
+		  window.location.href='listwaifu';
+	  }else if(type[0]==="loli"){
+		  window.location.href='listWaifu_TypeLoli';
+	  }else if(type[0]==="BB"){
+		  window.location.href='listWaifu_TypeBB';
+	  }
+	  console.log(type[0]);
+	  
+	} 
+	
+function getSort(selectObject) {
+	 var sort = selectObject.value;
+	 localStorage.setItem("typeOfS", sort);
+	 type[0] = localStorage.getItem("typeOfW");
+	  if(type[0]==="all" && sort==="priceUp"){
+		  window.location.href='sortByPriceUp';
+	  }else if (type[0]==="all" && sort==="priceDown"){
+		  window.location.href='listWaifu_PriceGoingDown';
+	  }else if (type[0]==="all" && sort==="AgeUp"){
+		  window.location.href='listWaifu_AgeGoingUp';
+	  }else if (type[0]==="all" && sort==="AgeDown"){
+		  window.location.href='listWaifu_AgeGoingDown';	  
+	  }else if (type[0]==="all" && sort==="name"){
+		  window.location.href='listWaifu_Name_A_Z';		  
+	  } else if (type[0]==="loli" && sort==="priceUp"){
+		  window.location.href='sortByPriceUp_TypeLoli';
+	  }else if (type[0]==="loli" && sort==="AgeDown"){
+		  window.location.href='listWaifu_AgeGoingDown_TypeLoli';
+	  }else if (type[0]==="loli" && sort==="AgeUp"){
+		  window.location.href='listWaifu_AgeGoingUp_TypeLoli';
+	  }else if (type[0]==="loli" && sort==="name"){
+		  window.location.href='listWaifu_Name_A_Z_TypeLoli';
+	  }else if (type[0]==="loli" && sort==="priceDown"){
+		  window.location.href='listWaifu_PriceGoingDown_TypeLoli';
+	  }else if (type[0]==="BB" && sort==="priceDown"){
+		  window.location.href='listWaifu_PriceGoingDown_TypeBB';
+	  }else if (type[0]==="BB" && sort==="AgeDown"){
+		  window.location.href='listWaifu_AgeGoingDown_TypeBB';
+	  }else if (type[0]==="BB" && sort==="AgeUp"){
+		  window.location.href='listWaifu_AgeGoingUp_TypeBB';
+	  }else if (type[0]==="BB" && sort==="name"){
+		  window.location.href='listWaifu_Name_A_Z_TypeBB';
+	  }else if (type[0]==="BB" && sort==="priceUp"){
+		  window.location.href='sortByPriceUp_TypeBB';
+	} 	
+}
+function AddToCart() {
+	var count = localStorage.getItem("CountProductOnCart");
+	if(count == null){
+		count=1;
+	}else{
+		count++;
+	}
+	localStorage.setItem("CountProductOnCart",count);
+	 
+}
+
+function MovePage() {
+	localStorage.setItem("typeOfW", "all");
+	localStorage.setItem("typeOfS", "priceUp");
+}
+function cart_click() {
+	window.location.href='Cart';
+}
+	
+	
+</script>
+</html>
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

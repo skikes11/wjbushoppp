@@ -1,0 +1,5 @@
+package net.java.model;
+
+public class IdGenerator {
+
+}

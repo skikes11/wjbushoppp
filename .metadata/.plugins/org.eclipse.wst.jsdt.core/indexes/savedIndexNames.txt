@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+E:\Flearning\java Wordspaceee\Web1_Login_Crud\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+707023879.index
+963812292.index
+2208684354.index
+3011387890.index
+3190647099.index
+1514973700.index

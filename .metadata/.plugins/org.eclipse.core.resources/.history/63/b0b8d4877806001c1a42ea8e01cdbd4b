@@ -1,0 +1,119 @@
+package net.java.dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import net.java.model.user;
+import net.java.model.waifu;
+
+public class BillDAO {
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/wjbushop?useSSL=false";
+    private static String jdbcUsername = "root";
+    private static String jdbcPassword = "123456bo";
+    
+    
+    private static final String INSERT_BILL_SQL = "INSERT INTO bill" + "  (id,date,priceTotal,idCustomer) VALUES " +
+            " ( ?, ?,?,?);";
+    private static final String INSERT_BILLDETAIL_SQL = "INSERT INTO billDetail" + "  (unitprice,quantity,idBill,idWaifu) VALUES " +
+            " ( ?, ?,?,?);";
+    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO customer" + "  (id,name,phone,city,district,detailAddress) VALUES " +
+            " ( ?, ?,?,?,?,?);";
+    private static final String UPDATE_BILL = "update bill set priceTotal=?	 where id = ?;";
+	 protected static Connection getConnection() {
+	        Connection connection = null;
+	        try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+	        } catch (SQLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (ClassNotFoundException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	        return connection	;
+	    }
+	 
+	 public BillDAO() {}
+	 
+	 private static void printSQLException(SQLException ex) {
+	        for (Throwable e: ex) {
+	            if (e instanceof SQLException) {
+	                e.printStackTrace(System.err);
+	                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+	                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+	                System.err.println("Message: " + e.getMessage());
+	                Throwable t = ex.getCause();
+	                while (t != null) {
+	                    System.out.println("Cause: " + t);
+	                    t = t.getCause();
+	                }
+	            }
+	        }
+	    }
+	 
+	   public void insertBill(String id, Date date,int priceTotal,String idCustomer ) throws SQLException {
+	        System.out.println(INSERT_BILL_SQL);
+	        // try-with-resource statement will auto close the connection.
+	        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BILL_SQL)) {
+	            preparedStatement.setString(1,id );
+	            preparedStatement.setDate(2, date);
+	            preparedStatement.setLong(3, priceTotal);
+	            preparedStatement.setString(4, idCustomer);
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	        	printSQLException(e);
+	        }
+	    }
+	   
+	   public void insertBillDetail(long unitprice, int quantity,String idBill,int idWaifu ) throws SQLException {
+	        System.out.println(INSERT_BILLDETAIL_SQL);
+	        // try-with-resource statement will auto close the connection.
+	        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BILLDETAIL_SQL)) {
+	            preparedStatement.setLong(1,unitprice );
+	            preparedStatement.setInt(2, quantity);
+	            preparedStatement.setString(3, idBill);
+	            preparedStatement.setLong(4, idWaifu);
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	        	printSQLException(e);
+	        }
+	    }
+	   public void insertCustomer(String id, String name , String phone,String  city,String district,String detailAddress ) throws SQLException {
+	        System.out.println(INSERT_CUSTOMER_SQL);
+	        // try-with-resource statement will auto close the connection.
+	        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CUSTOMER_SQL)) {
+	            preparedStatement.setString(1,id );
+	            preparedStatement.setString(2, name);
+	            preparedStatement.setString(3, phone);
+	            preparedStatement.setString(4, city);
+	            preparedStatement.setString(5, district);
+	            preparedStatement.setString(6, detailAddress);
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	        	printSQLException(e);
+	        }
+	    }
+	   
+	   
+	   public void Update_Bill(String id, int priceTotal) throws SQLException{
+		 	try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BILL)) {
+		         preparedStatement.setString(1, id);
+		         preparedStatement.setInt(2, priceTotal);
+		         System.out.println(preparedStatement);
+		          preparedStatement.executeUpdate();
+		     } catch (SQLException e) {
+		         printSQLException(e);
+		     }
+		 }
+		 
+	 
+	 
+
+}
